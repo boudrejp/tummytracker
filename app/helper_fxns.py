@@ -6,12 +6,12 @@ from os import path
 filepath = "../data/daily_data.json"
 
 def initialize_data():
-    data = [{}]
+    data = {}
     with open(filepath, "w") as write_file:
         json.dump(data, write_file)
 
 def find_date(date:str, json_obj):
-    return [obj for obj in json_obj if obj['date'] == date][0]
+    return json_obj[date]
 
 def add_new_date(date: str, verbose = False):
 
@@ -29,7 +29,7 @@ def add_new_date(date: str, verbose = False):
         print(f"Date {date} already exists. Edit to make changes")
         return
     except:
-        listobj.append({
+        listobj[date] = {
             'date': date,
             'food': [],
             'sleep_hours': np.nan,
