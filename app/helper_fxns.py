@@ -13,6 +13,9 @@ def initialize_data():
 def find_date(date:str, json_obj):
     return json_obj[date]
 
+def initialize_edit(date: str, verbose = False):
+    
+
 def add_new_date(date: str, verbose = False):
 
     # check to see if data exists
@@ -46,11 +49,8 @@ def add_new_date(date: str, verbose = False):
         if verbose:
             print("Successfully created new date in daily_data.json")
 
-#####################
-### rethink these...
-#####################
 
-def add_food(food_list: list, new_food: str):
+def add_food(food_list: list, new_food: str, date: str, verbose = False):
     if path.isfile(filepath) is False:
         if verbose:
             print('new data file created')
@@ -65,18 +65,48 @@ def add_food(food_list: list, new_food: str):
     except:
         print('Date not found in database')
         return
-
+    
+    # append the new food and put back into dict
     entry['food'].append(new_food)
+    listobj[date] = entry
+    
+    # now write out dict to json
+    with open(filepath, "w") as fp:
+        json.dump(data, fp)
     
 
-def remove_food(food_list: list, food: str):
-    try:
-        ret_list = food_list.remove(food)
-    except:
-        print(f"Food {food} was not found")
-        ret_list = food_list
-    return ret_list
+def remove_food(food_list: list, food: str, date: str, verbose = False):
+    if path.isfile(filepath) is False:
+        if verbose:
+            print('new data file created')
+        initialize_data()
 
+    with open(filepath) as fp:
+        listobj = json.load(fp)
+
+    # find the date
+    try:
+        entry = find_date()
+    except:
+        print('Date not found in database')
+        return
+    
+    # remove the food from the list
+    try:
+        entry['food'].remove(food)
+    except:
+        print(f'Food {food} not found in current list')
+        return
+    
+    listobj[date] = entry
+    
+    # now write out dict to json
+    with open(filepath, "w") as fp:
+        json.dump(data, fp)
+
+ #####################
+### rethink these...
+#####################       
 def edit_sleep(sleep_hours: float):
     return sleep_hours
 
