@@ -20,7 +20,7 @@ def write_out(obj, filepath = filepath, verbose = False):
             separators = (',', ': '))
     if verbose:
         print("Successfully wrote out to daily_data.json")
-    
+
 def access_date_procedure(date:str, filepath = filepath):
     if path.isfile(filepath) is False:
         if verbose:
@@ -80,51 +80,51 @@ def add_food(new_food: str, date: str, verbose = False):
     # append the new food and put back into dict
     entry['food'].append(new_food)
     listobj[date] = entry
-    
+
     # now write out dict to json
     write_out(listobj, verbose = verbose)
 
-    
+
 
 def remove_food(food: str, date: str, verbose = False):
     try:
         listobj, entry = access_date_procedure(date)
     except:
         return
-    
+
     # remove the food from the list
     try:
         entry['food'].remove(food)
     except:
         print(f'Food {food} not found in current list')
         return
-    
+
     listobj[date] = entry
-    
+
     # now write out dict to json
     write_out(listobj, verbose = verbose)
 
-     
+
 def edit_sleep(sleep_hours: float, date: str, verbose = False):
     try:
         listobj, entry = access_date_procedure(date)
     except:
         return
-    
+
     entry['sleep_hours'] = sleep_hours
 
     listobj['date'] = entry
 
     write_out(listobj, verbose = verbose)
 
-    
+
 
 def edit_steps(steps: int, date:str, verbose = False):
     try:
         listobj, entry = access_date_procedure(date)
     except:
         return
-    
+
     entry['steps'] = steps
 
     listobj['date'] = entry
@@ -136,7 +136,7 @@ def edit_poop(date:str, poop_quality = ['normal', 'diarrhea', 'food present', 'c
         listobj, entry = access_date_procedure(date)
     except:
         return
-    
+
     entry['poop_quality'] = poop_quality
 
     listobj['date'] = entry
@@ -148,44 +148,44 @@ def edit_physical(date:str, physical_feeling = ['good', 'bloated', 'light', 'nau
         listobj, entry = access_date_procedure(date)
     except:
         return
-    
+
     entry['physical_feeling'] = physical_feeling
 
     listobj['date'] = entry
 
-    write_out(listobj, verbose = verbose) 
+    write_out(listobj, verbose = verbose)
 
-def edit_mental(date:str, mental_feeling = ['clear', 'foggy', 'stressed', 'apathetic'][0], verbose = False):
+def edit_mental(date:str, mental_feeling = ['clear', 'foggy/tired', 'stressed', 'apathetic'][0], verbose = False):
     try:
         listobj, entry = access_date_procedure(date)
     except:
         return
-    
+
     entry['mental_feeling'] = mental_feeling
 
     listobj['date'] = entry
 
-    write_out(listobj, verbose = verbose)    
+    write_out(listobj, verbose = verbose)
 
 def edit_vomit(vomit:bool, date:str, verbose = False):
     try:
         listobj, entry = access_date_procedure(date)
     except:
         return
-    
+
     entry['vomit'] = vomit
 
     listobj['date'] = entry
 
-    write_out(listobj, verbose = verbose)        
+    write_out(listobj, verbose = verbose)
 
-  
+
 def print_out_date(date:str):
     try:
         listobj, entry = access_date_procedure(date)
     except:
         return
-    
+
     print(f"|- - - - - {date} - - - - -|")
     print(f"Food: {', '.join(entry['food'])}")
     print(f"Sleep hours: {entry['sleep_hours']}")
@@ -204,4 +204,4 @@ def delete_date(date:str, verbose = False):
 
     listobj.pop(date, None)
 
-    write_out(listobj, verbose = verbose) 
+    write_out(listobj, verbose = verbose)
